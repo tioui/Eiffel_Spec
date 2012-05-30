@@ -1,4 +1,4 @@
 Eiffel_Spec
 ===========
 
-EiffelStudio Config files and procedure to compile a EiffelStudio Cross-Compiler for different target.
+Config files and procedure to compile an EiffelStudio Cross-Compiler for different target.
