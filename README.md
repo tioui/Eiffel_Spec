@@ -1,4 +1,4 @@
-Eiffel_wiz
-==========
+Eiffel_Spec
+===========
 
-A cross-compiler for programming the GP2X Wiz on Linux with EiffelStudio.
+EiffelStudio Config files and procedure to compile a EiffelStudio Cross-Compiler for different target.
