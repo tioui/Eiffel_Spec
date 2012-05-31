@@ -1,0 +1,78 @@
+Procedure d'installation pour produire un Spec de EiffelStudio pouvant compiler sur la console de jeu GP2X Wiz.
+
+Cette installation a été testé et fonctionne sur Linux Ubuntu 11.10 et 12.04. Cette procédure devrait fonctionner pour d'autres distributions de linux en y faisant quelques modifications.
+
+Avant de compiler le "spec", vous devez avoir un EiffelStudio d'installé dans un répertoire du système (installé avec le fichier ".tar.bz2" et non le ".deb"). Si vous n'avez pas d'EiffelStudio d'installé de cette manière, faites les opérations suivantes:
+
+	- Téléchargez la dernière version (7.0 utilisée ici) d'EiffelStudio (".tar.bz2" file) à partir du site web: http://sourceforge.net/projects/eiffelstudio/files/
+	- Extraire le programme et le placer dans un répertoire système: Pour effectuer cette opération, ouvrez un terminal et entrez les lignes de commandes suivante:
+		# cd /path/du/répertoire/contenant/le/fichier/.tar.bz2/
+		# tar xfj Eiffel??_gpl_*_linux-x86*.tar.bz2
+		# sudo mv Eiffel?? /usr/local/
+	- Maintenant que le programme est installé on peut se créer un lanceur (si vous aviez déjà installé un EiffelStudio avec le ".deb" et que vous désiré le garder, ne faite pas ceci):
+		# sudo nano /usr/local/bin/eiffelstudio
+			#!/bin/sh
+			export LANG=C
+			export ISE_EIFFEL=/usr/local/Eiffel70
+			export ISE_PLATFORM=linux-x86
+			#export ISE_PLATFORM=linux-x86-64    # Uncomment if you use a 64 bits EiffelStudio
+			export PATH=$PATH:$ISE_EIFFEL/studio/spec/$ISE_PLATFORM/bin
+			estudio	
+		# sudo chmod +x /usr/local/bin/eiffelstudio
+
+Maintenant qu'EiffeStudio est installé vous devez installer le "toolchain" de arm_openwiz. Ce "toolchain" doit obligatoirement être installé dans el répertoire /opt/. Suivez les étapes suivantes pour installer le "toolchain":
+
+	- Télécharger le "toolchain" sur: http://dl.openhandhelds.org/cgi-bin/wiz.cgi?0,0,0,0,14,8
+	- Extraire le "toolchain" et le placer dans le répertoire /opt/. Pour ce faire, ouvrez un terminal et inscrivez ces lignes de commandes:
+		# cd /path/du/répertoire/contenant/le/fichier/.tar.gz/
+		# tar xfz openwiz*.tar.gz
+		# sudo mv arm-openwiz-linux-gnu /opt/
+
+Maintenant, nous devons compiler le "run-time" du nouveau "spec":
+
+	- Ouvrir un terminal (et gardez-le ouvert jusqu'à la fin) et initialisez les variables nécessaire à l'installation:
+		# export ISE_EIFFEL=/usr/local/Eiffel70 # Changer ce chemin pour le chemin d'EiffelStudio
+		# export ISE_PLATFORM=linux-wiz
+	- Télécharger et extraire le repository au format zip trouvé sur: https://github.com/tioui/Eiffel_Spec .
+	- Dans le terminal, allez dans le répertoire linux-wiz-spec du repository (le répertoire qui contient le fichier texte linux-wiz)
+		# cd /path/to/the/repository/linux-wiz-spec
+	- Installez les dépendances:
+		# sudo apt-get install libgtk2.0-dev libxtst-dev build-essential subversion
+	- Télécharger le code source du run-time d'EiffelStudio (changer Eiffel70 par votre version d'Eiffel):
+		# svn co https://svn.eiffel.com/eiffelstudio/branches/Eiffel_70/Src/C/ eif_C
+	- Copiez le fichier de configuration du spec linux-wiz dans le sous-répertoire CONFIG du répertoire eif_C:
+		# cp $ISE_PLATFORM eif_C/CONFIGS
+	- Se déplacer dns le répertoire eif_C et compiler le "run-time":
+		# cd eif_C
+		# ./quick_configure 
+	- Certains fichiers doivent être compilés pour votre PC et non pour la wiz:
+		# cd run-time 
+		# gcc -c -I.. -I. -I../ipc/app -I./include -I../idrs -O3 -Wall -pedantic -std=gnu99 -pipe -fPIC -D_GNU_SOURCE  x2c.c
+		# gcc -c -I.. -I. -I../ipc/app -I./include -I../idrs -O3 -Wall -pedantic -std=gnu99 -pipe -fPIC -D_GNU_SOURCE offset.c -o offset.o
+		# gcc -o x2c x2c.o offset.o   -lm
+
+Créer le nouveau "spec" dans EiffelStudio:
+
+	- Copier le "spec" de votre PC linux pour créer le "spec" de la Wiz:
+		# cp -rp $ISE_EIFFEL/studio/spec/linux-x86* $ISE_EIFFEL/studio/spec/$ISE_PLATFORM
+		# cp -rp $ISE_EIFFEL/studio/config/linux-x86* $ISE_EIFFEL/studio/config/$ISE_PLATFORM
+	- Remplacer le "run-time" du nouveau "spec" créé par le "run-time" compilé plus haut:
+		# cd ..
+		# cp run-time/*.h $ISE_EIFFEL/studio/spec/$ISE_PLATFORM/include
+		# cp config.sh $ISE_EIFFEL/studio/spec/$ISE_PLATFORM/
+		# cp run-time/lib* $ISE_EIFFEL/studio/spec/$ISE_PLATFORM/lib
+		# cp run-time/x2c $ISE_EIFFEL/studio/spec/$ISE_PLATFORM/bin
+	- Créer le lanceur pour EiffelStudio utilisant le "spec" linux-wiz:
+		# sudo nano /usr/local/bin/eiffelstudio-wiz
+			#!/bin/sh
+			export LANG=C
+			export ISE_EIFFEL=/usr/local/Eiffel70 # Remplacer par votre repertoire
+			export ISE_PLATFORM=linux-wiz
+			export PATH=$PATH:$ISE_EIFFEL/studio/spec/$ISE_PLATFORM/bin
+			estudio	
+		# sudo chmod +x /usr/local/bin/eiffelstudio-wiz
+
+À partir de maintenant, vous pouvez exécuter EiffelStudio utilisant le "spec" linux-wiz en exécutant la commande "eiffelstudio-wiz".
+
+
+
