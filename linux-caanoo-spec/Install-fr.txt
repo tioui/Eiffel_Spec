@@ -4,7 +4,7 @@ Cette installation a été testé et fonctionne sur Linux Ubuntu 11.10 et 12.04.
 
 Avant de compiler le "spec", vous devez avoir un EiffelStudio d'installé dans un répertoire du système (installé avec le fichier ".tar.bz2" et non le ".deb"). Si vous n'avez pas d'EiffelStudio d'installé de cette manière, faites les opérations suivantes:
 
-	- Téléchargez la dernière version (7.0 utilisée ici) d'EiffelStudio (".tar.bz2" file) à partir du site web: http://sourceforge.net/projects/eiffelstudio/files/
+	- Téléchargez la dernière version (7.1 utilisée ici) d'EiffelStudio (".tar.bz2" file) à partir du site web: http://sourceforge.net/projects/eiffelstudio/files/
 	- Extraire le programme et le placer dans un répertoire système: Pour effectuer cette opération, ouvrez un terminal et entrez les lignes de commandes suivante:
 		# cd /path/du/répertoire/contenant/le/fichier/.tar.bz2/
 		# tar xfj Eiffel??_gpl_*_linux-x86*.tar.bz2
@@ -13,7 +13,7 @@ Avant de compiler le "spec", vous devez avoir un EiffelStudio d'installé dans u
 		# sudo nano /usr/local/bin/eiffelstudio
 			#!/bin/sh
 			export LANG=C
-			export ISE_EIFFEL=/usr/local/Eiffel70
+			export ISE_EIFFEL=/usr/local/Eiffel71
 			export ISE_PLATFORM=linux-x86
 			#export ISE_PLATFORM=linux-x86-64    # Uncomment if you use a 64 bits EiffelStudio
 			export PATH=$PATH:$ISE_EIFFEL/studio/spec/$ISE_PLATFORM/bin
@@ -28,25 +28,31 @@ Maintenant qu'EiffeStudio est installé vous devez installer le "toolchain" de G
 	- Extraire le "toolchain" et le placer dans le répertoire /opt/. Pour ce faire, ouvrez un terminal et inscrivez ces lignes de commandes:
 		# cd /path/du/répertoire/contenant/le/fichier/7z/
 		# 7z x "CaanooToolchain for Linux.7z"
-		# sudo mv sudo mv gcc-*-glibc-*-eabi /opt/
+		# sudo mv gcc-*-glibc-*-eabi /opt/
 
 Maintenant, nous devons compiler le "run-time" du nouveau "spec":
 
 	- Ouvrir un terminal (et gardez-le ouvert jusqu'à la fin) et initialisez les variables nécessaire à l'installation:
-		# export ISE_EIFFEL=/usr/local/Eiffel70 # Changer ce chemin pour le chemin d'EiffelStudio
+		# export ISE_EIFFEL=/usr/local/Eiffel71 # Changer ce chemin pour le chemin d'EiffelStudio
 		# export ISE_PLATFORM=linux-caanoo
 	- Télécharger et extraire le repository au format zip trouvé sur: https://github.com/tioui/Eiffel_Spec .
 	- Dans le terminal, allez dans le répertoire linux-caanoo-spec du repository (le répertoire qui contient le fichier texte linux-caanoo)
 		# cd /path/to/the/repository/linux-caanoo-spec
 	- Installez les dépendances:
 		# sudo apt-get install libgtk2.0-dev libxtst-dev build-essential subversion
-	- Télécharger le code source du run-time d'EiffelStudio (changer Eiffel70 par votre version d'Eiffel):
-		# svn co https://svn.eiffel.com/eiffelstudio/branches/Eiffel_70/Src/C/ eif_C
+	- Télécharger le code source du run-time d'EiffelStudio (changer Eiffel71 par votre version d'Eiffel):
+		# svn co https://svn.eiffel.com/eiffelstudio/branches/Eiffel_71/Src/C/ eif_C
 	- Copiez le fichier de configuration du spec linux-caanoo dans le sous-répertoire CONFIG du répertoire eif_C:
 		# cp $ISE_PLATFORM eif_C/CONFIGS
 	- Se déplacer dns le répertoire eif_C et compiler le "run-time":
 		# cd eif_C
 		# ./quick_configure 
+		-Note: Si la compilation échoue, vous pouvez essayer de modifier le fichier ~/.subversion/config pour y ajouter des information dans la section [miscellany]. Ensuite, retournez à l'étape du téléchargement du Run-Time et essayez de nouveau:
+			# nano ~/.subversion/config
+				[miscellany]
+				global-ignores = *.o *.lo *.la #*# .*.rej *.rej .*~ *~ .#* *.swp ~*
+				enable-auto-props = yes
+				use-commit-times = yes
 	- Certains fichiers doivent être compilés pour votre PC et non pour la caanoo:
 		# cd run-time 
 		# gcc -c -I.. -I. -I../ipc/app -I./include -I../idrs -O3 -Wall -pedantic -std=gnu99 -pipe -fPIC -D_GNU_SOURCE  x2c.c
@@ -68,7 +74,7 @@ Créer le nouveau "spec" dans EiffelStudio:
 		# sudo nano /usr/local/bin/eiffelstudio-caanoo
 			#!/bin/sh
 			export LANG=C
-			export ISE_EIFFEL=/usr/local/Eiffel70 # Remplacer par votre repertoire
+			export ISE_EIFFEL=/usr/local/Eiffel71 # Remplacer par votre repertoire
 			export ISE_PLATFORM=linux-caanoo
 			export PATH=$PATH:$ISE_EIFFEL/studio/spec/$ISE_PLATFORM/bin
 			estudio	
