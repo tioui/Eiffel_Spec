@@ -22,7 +22,7 @@ sudo mv Eiffel_??.?? /usr/local/
 * Now that you have the program installed, you can make a launcher. To do this, create an executable file in a system path directory and put the execution lines in it:
 
 ```bash
-	sudo nano /usr/local/bin/eiffelstudio
+sudo nano /usr/local/bin/eiffelstudio
 ```
 
 Put this content in the file:
@@ -42,7 +42,7 @@ Put this content in the file:
 Put the file executable:
 
 ```bash
-	sudo chmod +x /usr/local/bin/eiffelstudio
+sudo chmod +x /usr/local/bin/eiffelstudio
 ```
 
 ### Installation of the Android NDK
@@ -53,12 +53,12 @@ Now that you have EiffelStudio on your system, you need to install the Android N
 * Extract the toolchain and put it in the /opt/ directory. To do this, open a terminal and use these command lines:
 
 ```bash
-	cd /path/of/the/directory/containing/the/tar.bz2/file
-	sudo mv android-ndk-*-linux-x86*.tar.bz2 /opt/
-	cd /opt/
-	sudo tar xfj android-ndk-*-linux-x86*.tar.bz2
-	sudo rm android-ndk-*-linux-x86*.tar.bz2
-	sudo ln -s android-ndk-r9b android-ndk # change the r9b value to your android ndk version.
+cd /path/of/the/directory/containing/the/tar.bz2/file
+sudo mv android-ndk-*-linux-x86*.tar.bz2 /opt/
+cd /opt/
+sudo tar xfj android-ndk-*-linux-x86*.tar.bz2
+sudo rm android-ndk-*-linux-x86*.tar.bz2
+sudo ln -s android-ndk-r9b android-ndk # change the r9b value to your android ndk version.
 ```
 
 ### Compilation of the EiffelStudio cross-compiler for Android
