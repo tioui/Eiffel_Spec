@@ -227,7 +227,8 @@ sudo chmod +x /usr/local/bin/eiffelstudio-javascript
 eiffelstudio-javascript
 ```
 
-### Note about the build
+
+Be sure to remove every Precompile library before using the JavaScript compiler. If you don't, you will get an error.
 
 When you use the compiler of eiffelstudio-javascript, it does not create a JavaScript file. It create a LLVM bytecode file. To create the JavaScript file, you have to execute the Emscripten compiler on the LLVM bytecode file. To create just the JavaScript file (adapt the binary_file file to whatever is compile in you F_code directory):
 
@@ -250,3 +251,8 @@ mv binary_file binary_file.bc
 ```
 
 Again here, it is possible that you have to adjust the TOTAL_MEMORY variable.
+
+# Note about the compiler
+
+* Javascript does not support C like Threads. So you can't compile Multithreading (or SCOOP) application to JavaScript.
+* The Emscripten compiler has other compilation option that can be use. See the documentation at <http://kripken.github.io/emscripten-site/docs/index.html>.
