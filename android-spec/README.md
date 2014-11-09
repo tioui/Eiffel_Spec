@@ -49,7 +49,7 @@ sudo chmod +x /usr/local/bin/eiffelstudio
 
 Now that you have EiffelStudio on your system, you need to install the Android NDK toolchain. This toolchain *must* be install in the /opt/ directory. To do this, follow this steps:
 
-* Download and install the toolchain from http://developer.android.com/tools/sdk/ndk/index.html. I use the version r9b.
+* Download and install the toolchain from http://developer.android.com/tools/sdk/ndk/index.html. I use the version r10c.
 * Extract the toolchain and put it in the /opt/ directory. To do this, open a terminal and use these command lines:
 
 ```bash
@@ -58,7 +58,7 @@ sudo mv android-ndk-*-linux-x86*.tar.bz2 /opt/
 cd /opt/
 sudo tar xfj android-ndk-*-linux-x86*.tar.bz2
 sudo rm android-ndk-*-linux-x86*.tar.bz2
-sudo ln -s android-ndk-r9b android-ndk # change the r9b value to your android ndk version.
+sudo ln -s android-ndk-r10c android-ndk # change the r10c value to your android ndk version.
 ```
 
 ### Compilation of the EiffelStudio cross-compiler for Android
