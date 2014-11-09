@@ -4,13 +4,13 @@ EiffelStudio Cross-compiler for Android
 Installation
 ------------
 
-This installation work on Linux Ubuntu 12.04. It should work on other ditribution with very little modification.
+This installation work on Linux Ubuntu 14.04. It should work on other ditribution with very little modification.
 
 ### Installation of EiffelStudio
 
 Before compiling the spec, you must install the EiffelStudio ".tar.bz2" file. Do not use the ".deb" file or the PPA (uninstall it if you already install one of those). If you don't have it install yet, follow this steps:
 
-* Download the latest version (I use the version 13.11) of EiffelStudio (".tar.bz2" file) on the website: http://sourceforge.net/projects/eiffelstudio/files/
+* Download the latest version (I use the version 14.05) of EiffelStudio (".tar.bz2" file) on the website: http://sourceforge.net/projects/eiffelstudio/files/
 * Extract the program and put it in a system directory. To do this, open a terminal and use these command lines:
 
 ```bash
@@ -31,7 +31,7 @@ Put this content in the file:
 
 	#!/bin/sh
 	export LANG=C
-	export ISE_EIFFEL=/usr/local/Eiffel_13.11
+	export ISE_EIFFEL=/usr/local/Eiffel_14.05
 	#export ISE_PLATFORM=linux-x86    # Uncomment if you use a 32 bits EiffelStudio
 	export ISE_PLATFORM=linux-x86-64
 	export PATH=$PATH:$ISE_EIFFEL/studio/spec/$ISE_PLATFORM/bin
@@ -75,7 +75,7 @@ cd /path/to/the/repository/android-9-arm
 * Open a terminal (and keep it for each one of the following steps) and set the environment variables:
 
 ```bash
-export ISE_EIFFEL=/usr/local/Eiffel_13.11 # Change that for your EiffelStudio directory
+export ISE_EIFFEL=/usr/local/Eiffel_14.05 # Change that for your EiffelStudio directory
 export ISE_PLATFORM=android-9-arm # change to follow your spec
 ```
 
@@ -88,7 +88,7 @@ sudo apt-get install libgtk2.0-dev libxtst-dev build-essential subversion
 * Download the Eiffel run-time source code:
 
 ```bash
-svn co https://svn.eiffel.com/eiffelstudio/branches/Eiffel_13.11/Src/C/ eif_C
+svn co https://svn.eiffel.com/eiffelstudio/branches/Eiffel_14.05/Src/C/ eif_C
 ```
 
 * Apply the patch:
@@ -161,7 +161,7 @@ Put the following content:
 
 	#!/bin/sh
 	export LANG=C
-	export ISE_EIFFEL=/usr/local/Eiffel_13.11
+	export ISE_EIFFEL=/usr/local/Eiffel_14.05
 	export ISE_PLATFORM=android-9-arm
 	export PATH=$PATH:$ISE_EIFFEL/studio/spec/$ISE_PLATFORM/bin
 	estudio
