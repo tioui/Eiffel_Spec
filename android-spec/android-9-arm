@@ -171,7 +171,7 @@ fi
 if [ -n "$CFLAGS" ]; then
 	ccflags=$CFLAGS
 else
-	ccflags="-pipe -D_GNU_SOURCE -I/opt/android-ndk/platforms/android-$android_api/arch-$android_arch/usr/include -I/opt/android-ndk/toolchains/$android_arch-linux-androideabi-4.6/prebuilt/$native_spec/include"
+	ccflags="-pipe -fPIC -D_GNU_SOURCE -I/opt/android-ndk/platforms/android-$android_api/arch-$android_arch/usr/include -I/opt/android-ndk/toolchains/$android_arch-linux-androideabi-4.6/prebuilt/$native_spec/include"
 fi
 ccldflags="$ccflags --sysroot=/opt/android-ndk/platforms/android-$android_api/arch-$android_arch -L/opt/android-ndk/platforms/android-$android_api/arch-$android_arch/usr/lib -L/opt/android-ndk/toolchains/$android_arch-linux-androideabi-4.6/prebuilt/$native_spec/lib -L/opt/android-ndk/toolchains/$android_arch-linux-androideabi-4.6/prebuilt/$native_spec/lib32"
 if [ -n "$CPP" ]; then
@@ -214,7 +214,7 @@ eiflib='finalized'
 ld="/opt/android-ndk/toolchains/$android_arch-linux-androideabi-4.6/prebuilt/$native_spec/bin/$android_arch-linux-androideabi-ld"
 lintflags=''
 ldflags="-L/opt/android-ndk/platforms/android-$android_api/arch-$android_arch/usr/lib/"
-ldsharedflags="$ldflags -shared -o"
+ldsharedflags="$ldflags -lc -nostdlib -shared -o "
 libs='-lm'
 ln='/bin/ln'
 if [ -n "$MAKE" ]; then
