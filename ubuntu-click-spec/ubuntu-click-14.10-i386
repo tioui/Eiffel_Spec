@@ -191,7 +191,7 @@ eif_solaris='undef'
 eif_windows='undef'
 eif_64_bits='undef'
 eif_os='EIF_OS_LINUX'
-eif_arch='EIF_ARCH_ARM6'
+eif_arch='EIF_ARCH_X86'
 Mcc='Mcc'
 d_tls='undef'
 #Check value for next 2
