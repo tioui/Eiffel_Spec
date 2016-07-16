@@ -166,18 +166,18 @@ add_log='undef'
 if [ -n "$CC" ]; then
 	cc=$CC
 else
-	cc="/opt/android-ndk/toolchains/$android_arch-linux-androideabi-4.6/prebuilt/$native_spec/bin/$android_arch-linux-androideabi-gcc"
+	cc="/opt/android-ndk/toolchains/$android_arch-linux-androideabi-4.9/prebuilt/$native_spec/bin/$android_arch-linux-androideabi-gcc"
 fi
 if [ -n "$CFLAGS" ]; then
 	ccflags=$CFLAGS
 else
-	ccflags="-pipe -fPIC -D_GNU_SOURCE -I/opt/android-ndk/platforms/android-$android_api/arch-$android_arch/usr/include -I/opt/android-ndk/toolchains/$android_arch-linux-androideabi-4.6/prebuilt/$native_spec/include"
+	ccflags="-pipe -fPIC -D_GNU_SOURCE -I/opt/android-ndk/platforms/android-$android_api/arch-$android_arch/usr/include -I/opt/android-ndk/toolchains/$android_arch-linux-androideabi-4.9/prebuilt/$native_spec/include"
 fi
-ccldflags="$ccflags --sysroot=/opt/android-ndk/platforms/android-$android_api/arch-$android_arch -L/opt/android-ndk/platforms/android-$android_api/arch-$android_arch/usr/lib -L/opt/android-ndk/toolchains/$android_arch-linux-androideabi-4.6/prebuilt/$native_spec/lib -L/opt/android-ndk/toolchains/$android_arch-linux-androideabi-4.6/prebuilt/$native_spec/lib32"
+ccldflags="$ccflags --sysroot=/opt/android-ndk/platforms/android-$android_api/arch-$android_arch -L/opt/android-ndk/platforms/android-$android_api/arch-$android_arch/usr/lib -L/opt/android-ndk/toolchains/$android_arch-linux-androideabi-4.9/prebuilt/$native_spec/lib -L/opt/android-ndk/toolchains/$android_arch-linux-androideabi-4.9/prebuilt/$native_spec/lib32"
 if [ -n "$CPP" ]; then
 	cpp=$CPP
 else
-	cpp="/opt/android-ndk/toolchains/$android_arch-linux-androideabi-4.6/prebuilt/$native_spec/bin/$android_arch-linux-androideabi-g++"
+	cpp="/opt/android-ndk/toolchains/$android_arch-linux-androideabi-4.9/prebuilt/$native_spec/bin/$android_arch-linux-androideabi-g++"
 fi
 if [ -n "$CPPFLAGS" ]; then
 	cppflags=$CPPFLAGS
@@ -205,13 +205,13 @@ warning_level='-Wall'
 wkoptimize="-O0"
 
 #Makefiles
-ar="/opt/android-ndk/toolchains/$android_arch-linux-androideabi-4.6/prebuilt/$native_spec/bin/$android_arch-linux-androideabi-ar"
+ar="/opt/android-ndk/toolchains/$android_arch-linux-androideabi-4.9/prebuilt/$native_spec/bin/$android_arch-linux-androideabi-ar"
 boehmgclib='gc'
 command_makefile='make -f'
 concurrent_prefix='c'
 cp='/bin/cp'
 eiflib='finalized'
-ld="/opt/android-ndk/toolchains/$android_arch-linux-androideabi-4.6/prebuilt/$native_spec/bin/$android_arch-linux-androideabi-ld"
+ld="/opt/android-ndk/toolchains/$android_arch-linux-androideabi-4.9/prebuilt/$native_spec/bin/$android_arch-linux-androideabi-ld"
 lintflags=''
 ldflags="-L/opt/android-ndk/platforms/android-$android_api/arch-$android_arch/usr/lib/"
 ldsharedflags="$ldflags -lc -nostdlib -shared -o "
@@ -226,17 +226,17 @@ mkdep='\$(EIFFEL_SRC)/C/mkdep'
 mkdir='mkdir'
 mtldflags="$ldflags"
 mtldsharedflags="$ldsharedflags"
-mtlibs="$libs -lpthread"
+mtlibs="$libs"
 mt_prefix='mt'
 mv='/bin/mv'
 prefix='lib'
-ranlib="/opt/android-ndk/toolchains/$android_arch-linux-androideabi-4.6/prebuilt/$native_spec/bin/$android_arch-linux-androideabi-ar ts"
+ranlib="/opt/android-ndk/toolchains/$android_arch-linux-androideabi-4.9/prebuilt/$native_spec/bin/$android_arch-linux-androideabi-ar ts"
 shared_prefix='lib'
 shared_suffix='.so'
 shared_rt_suffix='.so'
 sharedlibs='-lm'
 sharedlibversion='.5.6'
-sharedlink="/opt/android-ndk/toolchains/$android_arch-linux-androideabi-4.6/prebuilt/$native_spec/bin/$android_arch-linux-androideabi-ld"
+sharedlink="/opt/android-ndk/toolchains/$android_arch-linux-androideabi-4.9/prebuilt/$native_spec/bin/$android_arch-linux-androideabi-ld"
 suffix='.a'
 wkeiflib='wkbench'
 
