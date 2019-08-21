@@ -17,44 +17,31 @@
 #--|----------------------------------------------------------------
 
 #Android NDK Information
-android_arch='mips64' # armeabi, armeabi-v7a, arm64-v8a, mips, mips64, x86, x86_64
+android_arch='i686' # arm, arm64, i686, x86_64
+android_version='22'
 
-# Generating specificity for each toolchain archtecture
-
-android_arch_platform=${android_arch}
-if [ "${android_arch}" = "armeabi-v7a" ]; then
-	android_arch_platform=armeabi
-fi
-android_toolchain=/opt/android-toolchain-${android_arch_platform}
+# Toolchain path
+android_toolchain='/opt/android-ndk/toolchains/llvm/prebuilt/linux-x86_64'
 
 # Compilation specificity
-android_toolcain_prefix=Not_Supported
 android_ccflags=
 android_ldflags=
-if [ "${android_arch}" = "armeabi" ]; then
-	android_toolcain_prefix=arm-linux-androideabi-
-	android_ccflags='-march=armv5te -mtune=xscale -msoft-float -mthumb'
-fi
-if [ "${android_arch}" = "armeabi-v7a" ]; then
-	android_toolcain_prefix=arm-linux-androideabi-
+
+# Utility variables
+android_compiler_prefix=${android_arch}
+android_tools_prefix=${android_arch}
+android_tools_sufix=
+if [ "${android_arch}" = "arm" ]; then
+	android_compiler_prefix='armv7a'
+	android_tools_sufix=eabi
 	android_ccflags='-march=armv7-a -mfpu=vfpv3-d16 -mfloat-abi=softfp -mthumb'
 	android_ldflags='-march=armv7-a'
 fi
-if [ "${android_arch}" = "arm64-v8a" ]; then
-	android_toolcain_prefix=aarch64-linux-android-
+if [ "${android_arch}" = "arm64" ]; then
+	android_compiler_prefix='aarch64'
+	android_tools_prefix='aarch64'
 fi
-if [ "${android_arch}" = "x86" ]; then
-	android_toolcain_prefix=i686-linux-android-
-fi
-if [ "${android_arch}" = "x86_64" ]; then
-	android_toolcain_prefix=x86_64-linux-android-
-fi
-if [ "${android_arch}" = "mips" ]; then
-	android_toolcain_prefix=mipsel-linux-android-
-fi
-if [ "${android_arch}" = "mips64" ]; then
-	android_toolcain_prefix=mips64el-linux-android-
-fi
+android_toolchain_prefix=${android_toolchain}/bin/${android_tools_prefix}-linux-android${android_tools_sufix}-
 
 #Computation/sizes
 byteorder='1234'
@@ -200,18 +187,18 @@ add_log='undef'
 if [ -n "$CC" ]; then
 	cc=$CC
 else
-	cc="${android_toolchain}/bin/${android_toolcain_prefix}gcc"
+	cc="${android_toolchain}/bin/${android_compiler_prefix}-linux-android${android_tools_sufix}${android_version}-clang"
 fi
 if [ -n "$CFLAGS" ]; then
 	ccflags=$CFLAGS
 else
-	ccflags="-pipe -fPIC -D_GNU_SOURCE --sysroot=${android_toolchain}/sysroot ${android_ccflags}"
+	ccflags="-pipe -fPIC -D_GNU_SOURCE --sysroot=${android_toolchain}/sysroot -I${android_toolchain}/sysroot/usr/include/${android_compiler_prefix}-linux-android${android_tools_sufix} ${android_ccflags}"
 fi
-ccldflags="$ccflags -L${android_toolchain}/sysroot/usr/lib64 -L${android_toolchain}/sysroot/usr/lib"
+ccldflags="$ccflags -L${android_toolchain}/sysroot/usr/lib/${android_tools_prefix}-linux-android${android_tools_sufix}/${android_version} -L${android_toolchain}/sysroot/usr/lib/${android_tools_prefix}-linux-android${android_tools_sufix}"
 if [ -n "$CPP" ]; then
 	cpp=$CPP
 else
-	cpp="${android_toolchain}/bin/${android_toolcain_prefix}g++"
+	cpp="${android_toolchain}/bin/${android_compiler_prefix}-linux-android${android_tools_sufix}${android_version}-clang++"
 fi
 if [ -n "$CPPFLAGS" ]; then
 	cppflags=$CPPFLAGS
@@ -239,15 +226,15 @@ warning_level='-Wall'
 wkoptimize="-O0"
 
 #Makefiles
-ar="${android_toolchain}/bin/${android_toolcain_prefix}ar"
+ar="${android_toolchain_prefix}ar"
 boehmgclib='gc'
 command_makefile='make -f'
 concurrent_prefix='c'
 cp='/bin/cp'
 eiflib='finalized'
-ld="${android_toolchain}/bin/${android_toolcain_prefix}ld"
+ld="${android_toolchain_prefix}ld"
 lintflags=''
-ldflags="-L${android_toolchain}/sysroot/usr/lib64 -L${android_toolchain}/sysroot/usr/lib ${android_ldflags}"
+ldflags="-L${android_toolchain}/sysroot/usr/lib/${android_tools_prefix}-linux-android${android_tools_sufix}/${android_version} -L${android_toolchain}/sysroot/usr/lib/${android_tools_prefix}-linux-android${android_tools_sufix} ${android_ldflags}"
 ldsharedflags="$ldflags -lc -nostdlib -shared -o "
 libs='-lm'
 ln='/bin/ln'
@@ -264,13 +251,13 @@ mtlibs="$libs"
 mt_prefix='mt'
 mv='/bin/mv'
 prefix='lib'
-ranlib="${android_toolchain}/bin/${android_toolcain_prefix}ar ts"
+ranlib="${android_toolchain_prefix}ar ts"
 shared_prefix='lib'
 shared_suffix='.so'
 shared_rt_suffix='.so'
 sharedlibs='-lm'
 sharedlibversion='.5.6'
-sharedlink="${android_toolchain}/bin/${android_toolcain_prefix}ld"
+sharedlink="${android_toolchain_prefix}ld"
 suffix='.a'
 wkeiflib='wkbench'
 

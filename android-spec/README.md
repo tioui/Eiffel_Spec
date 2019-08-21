@@ -4,13 +4,13 @@ EiffelStudio Cross-compiler for Android
 Installation
 ------------
 
-This installation work on Linux Ubuntu 16.05. It should work on other ditribution with very little modification.
+This installation work on Linux Ubuntu 19.05. It should work on other ditribution with very little modification.
 
 ### Installation of EiffelStudio
 
 Before compiling the spec, you must install the EiffelStudio ".tar.bz2" file. Do not use the ".deb" file or the PPA (uninstall it if you already install one of those). If you don't have it install yet, follow this steps:
 
-* Download the latest version (I use the version 16.05) of EiffelStudio (".tar.bz2" file) on the website: http://sourceforge.net/projects/eiffelstudio/files/
+* Download the latest version (I use the version 19.05) of EiffelStudio (".tar.bz2" file) on the website: http://sourceforge.net/projects/eiffelstudio/files/
 * Extract the program and put it in a system directory. To do this, open a terminal and use these command lines:
 
 ```bash
@@ -31,7 +31,7 @@ Put this content in the file:
 
 	#!/bin/sh
 	export LANG=C
-	export ISE_EIFFEL=/usr/local/Eiffel_16.05
+	export ISE_EIFFEL=/usr/local/Eiffel_19.05
 	#export ISE_PLATFORM=linux-x86    # Uncomment if you use a 32 bits EiffelStudio
 	export ISE_PLATFORM=linux-x86-64
 	export PATH=$PATH:$ISE_EIFFEL/studio/spec/$ISE_PLATFORM/bin
@@ -49,7 +49,7 @@ sudo chmod +x /usr/local/bin/eiffelstudio
 
 Now that you have EiffelStudio on your system, you need to install the Android NDK. This NDK *must* be install in the /opt/ directory. To do this, follow this steps:
 
-* Download and install the NDK from https://developer.android.com/ndk/downloads/index.html . I use the version r12b.
+* Download and install the NDK from https://developer.android.com/ndk/downloads/index.html . I use the version r20.
 * Extract the NDK and put it in the /opt/ directory. To do this, open a terminal and use these command lines:
 
 ```bash
@@ -58,28 +58,15 @@ sudo mv android-ndk-*-linux-x86*.zip /opt/
 cd /opt/
 sudo unzip android-ndk-*-linux-x86*.zip
 sudo rm android-ndk-*-linux-x86*.zip
-sudo ln -s android-ndk-r12b android-ndk # change the r12b value to your android ndk version.
-```
-
-### Building Android Toolchains
-
-Android NDK can generate a unique toolchain for every Android Architecture that you are building. Here is the command lines to generate every Android architecture (arm, mips, x86, arm64, mips64 and x86_64).
-
-```bash
-sudo /opt/android-ndk/build/tools/make_standalone_toolchain.py --install-dir=/opt/android-toolchain-armeabi --arch=arm
-sudo /opt/android-ndk/build/tools/make_standalone_toolchain.py --install-dir=/opt/android-toolchain-mips --arch=mips
-sudo /opt/android-ndk/build/tools/make_standalone_toolchain.py --install-dir=/opt/android-toolchain-x86 --arch=x86
-sudo /opt/android-ndk/build/tools/make_standalone_toolchain.py --install-dir=/opt/android-toolchain-arm64-v8a --arch=arm64
-sudo /opt/android-ndk/build/tools/make_standalone_toolchain.py --install-dir=/opt/android-toolchain-mips64 --arch=mips64
-sudo /opt/android-ndk/build/tools/make_standalone_toolchain.py --install-dir=/opt/android-toolchain-x86_64 --arch=x86_64
+sudo ln -s android-ndk-r20 android-ndk # change the r20 value to your android ndk version.
 ```
 
 ### Compilation of the EiffelStudio cross-compiler for Android
 
-And now, compile the Eiffel run-time library for the new spec. For this exemple, I will the architecture ARM 32 bits (armeabi). If you want to change the architecture, rename the spec file (android-armeabi) accordingly and change the $android_arch variable in the file. To compile the run-time, follow this steps:
+And now, compile the Eiffel run-time library for the new spec. For this exemple, I will the architecture ARM 32 bits (armeabi) with the Android version 22. If you want to change the Android version, change the $android_version variable in the target file. To compile the run-time, follow this steps:
 
 * Download and extract the zipped repository at https://github.com/tioui/Eiffel_Spec .
-* In the terminal, go to the android-spec directory in the repository (the directory containing the android-armeabi file).
+* In the terminal, go to the android-spec directory in the repository (the directory containing the target (android-arm) file).
 
 ```bash
 cd /path/to/the/repository/
@@ -88,8 +75,8 @@ cd /path/to/the/repository/
 * Open a terminal (and keep it for each one of the following steps) and set the environment variables:
 
 ```bash
-export ISE_EIFFEL=/usr/local/Eiffel_16.05 # Change that for your EiffelStudio directory
-export ISE_PLATFORM=android-armeabi # change to follow your spec
+export ISE_EIFFEL=/usr/local/Eiffel_19.05 # Change that for your EiffelStudio directory
+export ISE_PLATFORM=android-arm # change to follow your spec
 ```
 
 * Install the dependancies:
@@ -101,7 +88,7 @@ sudo apt-get install libgtk2.0-dev libxtst-dev build-essential subversion
 * Download the Eiffel run-time source code:
 
 ```bash
-svn co https://svn.eiffel.com/eiffelstudio/branches/Eiffel_16.05/Src/C/ eif_C
+svn co https://svn.eiffel.com/eiffelstudio/branches/Eiffel_19.05/Src/C/ eif_C
 ```
 
 * Apply the patch:
@@ -174,8 +161,8 @@ Put the following content:
 
 	#!/bin/sh
 	export LANG=C
-	export ISE_EIFFEL=/usr/local/Eiffel_16.05
-	export ISE_PLATFORM=android-armeabi		# Adapt with the good architecture
+	export ISE_EIFFEL=/usr/local/Eiffel_19.05
+	export ISE_PLATFORM=android-arm		# Adapt with the good architecture
 	export PATH=$PATH:$ISE_EIFFEL/studio/spec/$ISE_PLATFORM/bin
 	estudio
 
@@ -190,12 +177,12 @@ sudo chmod +x /usr/local/bin/eiffelstudio-${ISE_PLATFORM}
 * To start the Android EiffelStudio cross compiler:
 
 ```bash
-eiffelstudio-android-armeabi
+eiffelstudio-android-arm
 ```
 
 Note: By default, if you have a precompiled library in your project, the compilation will fail. You can just remove the precompiled library from your project (you can use another target) or you can create the precompiled directory for Android (only usefull to remove EiffelStudio message error) this way:
 
 ```bash
-mkdir -p ~/.es/eiffel_user_files/16.05/precomp/spec/${ISE_PLATFORM}
-cp  ~/.es/eiffel_user_files/16.05/precomp/spec/linux-x86*/*.ecf ~/.es/eiffel_user_files/16.05/precomp/spec/${ISE_PLATFORM}/
+mkdir -p ~/.es/eiffel_user_files/19.05/precomp/spec/${ISE_PLATFORM}
+cp  ~/.es/eiffel_user_files/19.05/precomp/spec/linux-x86*/*.ecf ~/.es/eiffel_user_files/19.05/precomp/spec/${ISE_PLATFORM}/
 ```
